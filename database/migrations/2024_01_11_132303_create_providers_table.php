@@ -11,11 +11,14 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('zip_locations', function (Blueprint $table) {
+        Schema::create('providers', function (Blueprint $table) {
             $table->id();
-            $table->string('zip')->unique();
-            $table->string('city')->nullable();
-            $table->string('state')->nullable();
+            $table->string('name');
+            $table->string('image')->default('provider.png');
+            $table->text('short_description')->nullable();
+            $table->string('phone')->nullable();
+            $table->string('email')->nullable();
+            $table->string('website')->nullable();
             $table->timestamps();
         });
     }
@@ -25,6 +28,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('zip_locations');
+        Schema::dropIfExists('providers');
     }
 };

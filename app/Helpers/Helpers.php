@@ -195,3 +195,13 @@ if (!function_exists('find_records')) {
 		}
 	}
 }
+if (!function_exists('count_offers_in_zip')) {
+	function count_offers_in_zip($provider_id, $zip){
+		// count offers where zip is zip and provider_id is provider_id
+		$query = DB::table('offers')
+		->where('zip', $zip)
+		->where('provider_id', $provider_id)
+		->count();
+		return $query;
+	}
+}

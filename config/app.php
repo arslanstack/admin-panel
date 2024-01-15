@@ -58,7 +58,7 @@ return [
     'url' => env('APP_URL', 'http://localhost'),
 
     // 'asset_url' => env('ASSET_URL'),
-    'asset_url' => 'http://localhost/mandilinks/public/',
+    'asset_url' => 'http://localhost/internet_offers/public/',
 
     /*
     |--------------------------------------------------------------------------

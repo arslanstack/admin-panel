@@ -11,12 +11,8 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('zip_locations', function (Blueprint $table) {
-            $table->id();
-            $table->string('zip')->unique();
-            $table->string('city')->nullable();
-            $table->string('state')->nullable();
-            $table->timestamps();
+        Schema::table('provider_packages', function (Blueprint $table) {
+            $table->tinyInteger('pkg_type')->default(1)->after('service_id')->comment('0=>Basic,1=>Plus,2=>Pro');
         });
     }
 
@@ -25,6 +21,8 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('zip_locations');
+        Schema::table('provider_packages', function (Blueprint $table) {
+            $table->dropColumn('pkg_type');
+        });
     }
 };
