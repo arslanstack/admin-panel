@@ -6,6 +6,8 @@ use App\Http\Controllers\Admin\UserController;
 use App\Http\Controllers\Admin\ZipController;
 use App\Http\Controllers\Admin\ProviderController;
 use App\Http\Controllers\Admin\ServicesController;
+use App\Http\Controllers\Admin\OffersController;
+use App\Http\Controllers\Admin\ImportsController;
 use Illuminate\Support\Facades\Route;
 
 Route::group(['prefix'  =>  'admin'], function () {
@@ -28,7 +30,11 @@ Route::group(['prefix'  =>  'admin'], function () {
 		Route::group(['prefix'  =>  'locations'], function () {
 			Route::get('/', [ZipController::class, 'index']);
 			Route::get('/details/{zip}', [ZipController::class, 'details']);
+			Route::get('/add-provider/{zip}', [ZipController::class, 'addProvider']);
+			Route::get('/provider-offers/{zip}/{provider_id}', [ZipController::class, 'provider_offers']);
 			Route::post('/store', [ZipController::class, 'store']);
+			Route::post('/update', [ZipController::class, 'update']);
+			Route::post('/update-offers', [ZipController::class, 'updateOffers']);
 			Route::post('/remove-provider', [ZipController::class, 'removeProvider']);
 			Route::post('/delete-location', [ZipController::class, 'destroy']);
 		});
@@ -46,8 +52,18 @@ Route::group(['prefix'  =>  'admin'], function () {
 		Route::group(['prefix'  =>  'services'], function () {
 			Route::post('/store', [ServicesController::class, 'store']);
 			Route::post('/update', [ServicesController::class, 'update']);
-			Route::post('/show', [ServicesController::class, 'show']);
 			Route::post('/delete', [ServicesController::class, 'delete']);
+		});
+		Route::group(['prefix'  =>  'offers'], function () {
+			Route::post('/store', [OffersController::class, 'store']);
+		});
+
+		Route::group(['prefix'  =>  'imports'], function () {
+			Route::get('/', [ImportsController::class, 'index']);
+			Route::post('/upload_csv', [ImportsController::class, 'import']);
+			Route::get('/download-sample', [ImportsController::class, 'sampleDownload']);
+			Route::get('/download_file/{filename}', [ImportsController::class, 'DownloadOldImport']);
+			Route::post('/revert', [ImportsController::class, 'revertImport']);
 		});
 	});
 });

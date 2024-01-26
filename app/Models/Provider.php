@@ -18,6 +18,7 @@ class Provider extends Model
         'phone',
         'email',
         'website',
+        'batch_id',
     ];
 
     public function services()
@@ -28,5 +29,10 @@ class Provider extends Model
     public function offers()
     {
         return $this->hasMany(Offer::class, 'provider_id');
+    }
+
+    public function batch()
+    {
+        return $this->belongsTo(BulkImport::class, 'batch_id');
     }
 }

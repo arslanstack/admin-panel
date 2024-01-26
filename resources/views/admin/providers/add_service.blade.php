@@ -22,7 +22,7 @@
                 <a href="{{ url('admin/providers/') }}">Service Providers</a>
             </li>
             <li class="breadcrumb-item">
-                <a href="{{ url('admin/providers/details/' . $provider->id .'?tab=services') }}">{{$provider->name}}</a>
+                <a href="{{ url('admin/providers/details/' . $provider->id) }}">{{$provider->name}}</a>
             </li>
             <li class="breadcrumb-item active">
                 <strong> Add New Service </strong>
@@ -50,7 +50,7 @@
                             </div>
                             <div class="col-6">
                                 <h4> <label for="form-label">Service Title</label></h4>
-                                <input type="text" name="title" class="form-control" required placeholder="Internet, TV, Bundle etc.">
+                                <input type="text" name="title" class="form-control" required placeholder="e.g. Internet, TV, Bundle etc.">
                             </div>
                         </div>
                         <div class="form-group row" id="three-bundles">
@@ -67,27 +67,27 @@
                                     <tbody>
                                         <tr>
                                             <th scope="row">Package Title</th>
-                                            <td><input type="text" class="form-control text-center" required name="basic_title" placeholder="Starter etc."></td>
-                                            <td><input type="text" class="form-control text-center" required name="plus_title" placeholder="Plus etc."></td>
-                                            <td><input type="text" class="form-control text-center" required name="pro_title" placeholder="Fusion etc."></td>
+                                            <td><input type="text" class="form-control text-center" required name="basic_title" placeholder="e.g. Starter etc."></td>
+                                            <td><input type="text" class="form-control text-center" required name="plus_title" placeholder="e.g. Plus etc."></td>
+                                            <td><input type="text" class="form-control text-center" required name="pro_title" placeholder="e.g. Fusion etc."></td>
                                         </tr>
                                         <tr>
                                             <th scope="row">Specifications</th>
-                                            <td><input type="text" class="form-control text-center" required name="basic_specs" placeholder="Bandwidth/Channels"></td>
-                                            <td><input type="text" class="form-control text-center" required name="plus_specs" placeholder="Bandwidth/Channels"></td>
-                                            <td><input type="text" class="form-control text-center" required name="pro_specs" placeholder="Bandwidth/Channels"></td>
+                                            <td><input type="text" class="form-control text-center" required name="basic_specs" placeholder="e.g. Bandwidth/Channels"></td>
+                                            <td><input type="text" class="form-control text-center" required name="plus_specs" placeholder="e.g. Bandwidth/Channels"></td>
+                                            <td><input type="text" class="form-control text-center" required name="pro_specs" placeholder="e.g. Bandwidth/Channels"></td>
                                         </tr>
                                         <tr>
                                             <th scope="row">Price per Month (USD)</th>
-                                            <td><input type="text" class="form-control text-center" required name="basic_price" placeholder="149"></td>
-                                            <td><input type="text" class="form-control text-center" required name="plus_price" placeholder="249"></td>
-                                            <td><input type="text" class="form-control text-center" required name="pro_price" placeholder="359"></td>
+                                            <td><input type="text" class="form-control text-center" required name="basic_price" placeholder="e.g. 149"></td>
+                                            <td><input type="text" class="form-control text-center" required name="plus_price" placeholder="e.g. 249"></td>
+                                            <td><input type="text" class="form-control text-center" required name="pro_price" placeholder="e.g. 359"></td>
                                         </tr>
                                         <tr>
                                             <th scope="row">Minimum Pkg Duration</th>
-                                            <td><input type="text" class="form-control text-center" required name="basic_duration" placeholder="1 year"></td>
-                                            <td><input type="text" class="form-control text-center" required name="plus_duration" placeholder="6 months"></td>
-                                            <td><input type="text" class="form-control text-center" required name="pro_duration" placeholder="1 year"></td>
+                                            <td><input type="text" class="form-control text-center" required name="basic_duration" placeholder="e.g. 1 year"></td>
+                                            <td><input type="text" class="form-control text-center" required name="plus_duration" placeholder="e.g. 6 months"></td>
+                                            <td><input type="text" class="form-control text-center" required name="pro_duration" placeholder="e.g. 1 year"></td>
                                         </tr>
                                         <tr>
                                             <th scope="row">Features</th>

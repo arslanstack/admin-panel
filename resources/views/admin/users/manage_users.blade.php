@@ -4,13 +4,13 @@
 @section('content')
 <div class="row wrapper border-bottom white-bg page-heading">
     <div class="col-lg-8 col-sm-8 col-xs-8">
-        <h2> Users </h2>
+        <h2> Clients </h2>
         <ol class="breadcrumb">
             <li class="breadcrumb-item">
                 <a href="{{ url('admin') }}">Dashboard</a>
             </li>
             <li class="breadcrumb-item active">
-                <strong> Users </strong>
+                <strong> Clients </strong>
             </li>
         </ol>
     </div>
@@ -37,7 +37,7 @@
                             <thead>
                                 <tr>
                                     <th>Sr #</th>
-                                    <th>User</th>
+                                    <th>Name</th>
                                     <th>Email</th>
                                     <th>Phone No</th>
                                     <th>City</th>

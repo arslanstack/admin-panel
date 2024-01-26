@@ -13,25 +13,25 @@
 @section('content')
 <div class="row wrapper border-bottom white-bg page-heading">
     <div class="col-lg-8 col-sm-8 col-xs-8">
-        <h2> Service & Plan Details </h2>
+        <h2> Service Provider & Offers </h2>
         <ol class="breadcrumb">
             <li class="breadcrumb-item">
                 <a href="{{ url('admin') }}">Dashboard</a>
             </li>
             <li class="breadcrumb-item">
-                <a href="{{ url('admin/providers/') }}">Service Providers</a>
+                <a href="{{ url('admin/locations/') }}">Locations</a>
             </li>
             <li class="breadcrumb-item">
-                <a href="{{ url('admin/providers/details/' . $provider->id) }}">{{$provider->name}}</a>
+                <a href="{{ url('admin/locations/details/' . $ziploc->zip) }}">Location Details</a>
             </li>
             <li class="breadcrumb-item active">
-                <strong> Service & Plan Details </strong>
+                <strong> Service Provider & Offers </strong>
             </li>
         </ol>
     </div>
     <div class="col-lg-4 col-sm-4 col-xs-4 text-right">
-        <a class="btn btn-primary text-white t_m_25" href="{{ url('admin/providers/details/' . $provider->id . '?tab=services') }}">
-            <i class="fa fa-arrow-left" aria-hidden="true"></i> Back to Service Provider
+        <a class="btn btn-primary text-white t_m_25" href="{{ url('admin/locations/details/' . $ziploc->zip) }}">
+            <i class="fa fa-arrow-left" aria-hidden="true"></i> Back to Location Details
         </a>
     </div>
 </div>
@@ -40,18 +40,18 @@
         <div class="col-lg-12">
             <div class="ibox">
                 <div class="ibox-content">
-                    <form id="update_service_form" method="post">
+                    <form id="update_offer_form" method="post">
                         @csrf
-                        <input type="hidden" name="provider_id" class="form-control text-center" value="{{$service->provider->id}}">
-                        <input type="hidden" name="service_id" class="form-control text-center" value="{{$service->id}}">
+                        <input type="text" name="zip" value="{{$ziploc->zip}}" hidden>
+                        <input type="text" name="provider_id" value="{{$provider->id}}" hidden>
                         <div class="form-group row">
                             <div class="col-6">
-                                <h4> <label for="form-label">Service Provider</label></h4>
-                                <input type="text" class="form-control" disabled value="{{$service->provider->name}}">
+                                <h4> <label for="form-label">Location Zip</label></h4>
+                                <input type="text" class="form-control" disabled value="{{$ziploc->zip . ($ziploc->city ? ', ' . $ziploc->city : '') . ($ziploc->state ? ', ' . $ziploc->state : '')}}">
                             </div>
                             <div class="col-6">
-                                <h4> <label for="form-label">Service Title</label></h4>
-                                <input type="text" name="title" class="form-control" required value="{{$service->title}}">
+                                <h4> <label for="form-label">Service Provider</label></h4>
+                                <input type="text" class="form-control" disabled value="{{$provider->name}}">
                             </div>
                         </div>
                         <div class="form-group row" id="three-bundles">
@@ -60,35 +60,17 @@
                                     <thead>
                                         <tr>
                                             <th scope="col"></th>
-                                            <th scope="col">Basic</th>
-                                            <th scope="col">Plus</th>
-                                            <th scope="col">Pro</th>
+                                            <th scope="col">Internet</th>
+                                            <th scope="col">TV</th>
+                                            <th scope="col">Bundles</th>
                                         </tr>
                                     </thead>
                                     <tbody>
                                         <tr>
-                                            <th scope="row">Package Title</th>
-                                            <td><input type="text" class="form-control text-center" required name="basic_title" value="{{$basic->title}}"></td>
-                                            <td><input type="text" class="form-control text-center" required name="plus_title" value="{{$plus->title}}"></td>
-                                            <td><input type="text" class="form-control text-center" required name="pro_title" value="{{$pro->title}}"></td>
-                                        </tr>
-                                        <tr>
                                             <th scope="row">Specifications</th>
-                                            <td><input type="text" class="form-control text-center" required name="basic_specs" value="{{$basic->specs}}"></td>
-                                            <td><input type="text" class="form-control text-center" required name="plus_specs" value="{{$plus->specs}}"></td>
-                                            <td><input type="text" class="form-control text-center" required name="pro_specs" value="{{$pro->specs}}"></td>
-                                        </tr>
-                                        <tr>
-                                            <th scope="row">Price per Month (USD)</th>
-                                            <td><input type="text" class="form-control text-center" required name="basic_price" value="{{$basic->price}}"></td>
-                                            <td><input type="text" class="form-control text-center" required name="plus_price" value="{{$plus->price}}"></td>
-                                            <td><input type="text" class="form-control text-center" required name="pro_price" value="{{$pro->price}}"></td>
-                                        </tr>
-                                        <tr>
-                                            <th scope="row">Minimum Pkg Duration</th>
-                                            <td><input type="text" class="form-control text-center" required name="basic_duration" value="{{$basic->duration}}"></td>
-                                            <td><input type="text" class="form-control text-center" required name="plus_duration" value="{{$plus->duration}}"></td>
-                                            <td><input type="text" class="form-control text-center" required name="pro_duration" value="{{$pro->duration}}"></td>
+                                            <td><input type="text" class="form-control text-center" required name="internet_specs" value="{{$internet_offer->offer_specs}}"></td>
+                                            <td><input type="text" class="form-control text-center" required name="tv_specs" value="{{$tv_offer->offer_specs}}"></td>
+                                            <td><input type="text" class="form-control text-center" required name="bundle_specs" value="{{$bundle_offer->offer_specs}}"></td>
                                         </tr>
                                         <tr>
                                             <th scope="row">Features</th>
@@ -126,7 +108,7 @@
                         </div>
                         <div class="form-group row">
                             <div class="col-12">
-                                <button type="button" class="btn btn-primary float-right" id="update_service_button">Update Service Details</button>
+                                <button type="button" class="btn btn-primary float-right" id="update_offer_button">Save Changes</button>
                             </div>
                         </div>
                     </form>
@@ -141,13 +123,13 @@
     var basic_features = [];
     var plus_features = [];
     var pro_features = [];
-    @foreach(json_decode($basic->features) as $feature)
+    @foreach(json_decode($internet_offer->offer_points) as $feature)
     basic_features.push("{{$feature}}");
     @endforeach
-    @foreach(json_decode($plus->features) as $feature)
+    @foreach(json_decode($tv_offer->offer_points) as $feature)
     plus_features.push("{{$feature}}");
     @endforeach
-    @foreach(json_decode($pro->features) as $feature)
+    @foreach(json_decode($bundle_offer->offer_points) as $feature)
     pro_features.push("{{$feature}}");
     @endforeach
     $(document).ready(function() {
@@ -266,17 +248,17 @@
             $('.tag-input-pro').val('');
         });
     });
-    $(document).on("click", "#update_service_button", function() {
+    $(document).on("click", "#update_offer_button", function() {
         var btn = $(this).ladda();
         btn.ladda('start');
-        if ($("#update_service_form")[0].checkValidity() && validateFeatures()) {
-            var formData = new FormData($("#update_service_form")[0]);
+        if ($("#update_offer_form")[0].checkValidity() && validateFeatures()) {
+            var formData = new FormData($("#update_offer_form")[0]);
             // add update_features to formData
             formData.append('basic_features', JSON.stringify(basic_features));
             formData.append('plus_features', JSON.stringify(plus_features));
             formData.append('pro_features', JSON.stringify(pro_features));
             $.ajax({
-                url: "{{ url('admin/services/update') }}",
+                url: "{{ url('admin/locations/update-offers') }}",
                 type: 'POST',
                 data: formData,
                 dataType: 'json',
@@ -304,18 +286,18 @@
             });
         } else {
             btn.ladda('stop');
-            $("#update_service_form :input[required]").each(function() {
+            $("#update_offer_form :input[required]").each(function() {
                 if (!this.checkValidity()) {
                     $(this).addClass('invalid');
                 } else {
                     $(this).removeClass('invalid');
                 }
             });
-            if (!$("#update_service_form")[0].checkValidity()) {
+            if (!$("#update_offer_form")[0].checkValidity()) {
                 toastr.error("Please fill all the required fields.", "Error");
                 return false;
             } else if (basic_features.length == 0 || plus_features.length == 0 || pro_features.length == 0) {
-                toastr.error("Please add at least one feature to each package.", "Error");
+                toastr.error("Please add at least one feature to each offer.", "Error");
                 return false;
             } else {
                 toastr.error("Please fill all the required fields.", "Error");

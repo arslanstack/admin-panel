@@ -21,14 +21,17 @@
             <li class="{{ Request::is('admin') ? 'active' : '' }} {{ Request::is('admin/admin') ? 'active' : '' }} {{ Request::is('admin/change_password') ? 'active' : '' }}">
                 <a href="{{ url('admin') }}"><i class="fa-solid fa-gauge-high"></i> <span class="nav-label">Dashboard</span></a>
             </li>
-            <li class="{{ Request::is('admin/locations') ? 'active' : '' }} {{ Request::is('admin/locations/detail*') ? 'active' : '' }}">
+            <li class="{{ Request::is('admin/locations') ? 'active' : '' }} {{ Request::is('admin/locations/*') ? 'active' : '' }}">
                 <a href="{{ url('admin/locations') }}"><i class="fa-solid fa-location"></i> <span class="nav-label">Locations</span></a>
             </li>
             <li class="{{ Request::is('admin/providers') ? 'active' : '' }} {{ Request::is('admin/providers/*') ? 'active' : '' }}">
                 <a href="{{ url('admin/providers') }}"><i class="fa-solid fa-building"></i> <span class="nav-label">Service Providers</span></a>
             </li>
+            <li class="{{ Request::is('admin/imports') ? 'active' : '' }} {{ Request::is('admin/imports/*') ? 'active' : '' }}">
+                <a href="{{ url('admin/imports') }}"><i class="fa-solid fa-file-arrow-up"></i> <span class="nav-label">Bulk Imports</span></a>
+            </li>
             <li class="{{ Request::is('admin/users') ? 'active' : '' }} {{ Request::is('admin/users/detail*') ? 'active' : '' }}">
-                <a href="{{ url('admin/users') }}"><i class="fa-solid fa-users"></i> <span class="nav-label">Users</span></a>
+                <a href="{{ url('admin/users') }}"><i class="fa-solid fa-users"></i> <span class="nav-label">Clients</span></a>
             </li>
         </ul>
     </div>

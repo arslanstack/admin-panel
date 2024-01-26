@@ -15,7 +15,13 @@ class ZipLocation extends Model
         'zip',
         'city',
         'state',
+        'batch_id',
     ];
+
+    public function batch()
+    {
+        return $this->belongsTo(BulkImport::class, 'batch_id');
+    }
 
     
 }

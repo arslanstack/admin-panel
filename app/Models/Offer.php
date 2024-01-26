@@ -16,6 +16,7 @@ class Offer extends Model
         'provider_id',
         'offer_specs',
         'offer_points',
+        'batch_id',
     ];
 
     public function provider()
@@ -26,5 +27,10 @@ class Offer extends Model
     public function location()
     {
         return $this->belongsTo(ZipLocation::class, 'zip');
+    }
+
+    public function batch()
+    {
+        return $this->belongsTo(BulkImport::class, 'batch_id');
     }
 }

@@ -4,7 +4,7 @@
 @section('content')
 <div class="row wrapper border-bottom white-bg page-heading">
     <div class="col-lg-8 col-sm-8 col-xs-8">
-        <h2> Service Providers & Offers </h2>
+        <h2> Location Details & Offers </h2>
         <ol class="breadcrumb">
             <li class="breadcrumb-item">
                 <a href="{{ url('admin') }}">Dashboard</a>
@@ -13,7 +13,7 @@
                 <a href="{{ url('admin/locations/') }}">Locations</a>
             </li>
             <li class="breadcrumb-item active">
-                <strong> Service Providers & Offers </strong>
+                <strong> Location Details & Offers </strong>
             </li>
         </ol>
     </div>
@@ -26,38 +26,45 @@
 </div>
 <div class="wrapper wrapper-content animated fadeInRight">
     <div class="row">
-        <div class="col-lg-4">
+        <div class="col-lg-12">
             <div class="ibox">
                 <div class="ibox-content">
                     <h4 class="mb-4">Location Details</h4>
                     <hr>
-                    <form action="#" id="" class="m-4" method="">
+                    <form action="#" id="update_location_form" class="m-4" method="POST">
                         @csrf
                         <input type="text" name="id" value="{{$ziploc->id}}" hidden>
                         <div class="row">
-                            <div class="form-group col-md-12">
+                            <div class="form-group col-md-4">
                                 <label class="form-label"><strong>Zip Code</strong></label>
-                                <input type="text" name="zip" id="zip" class="form-control" disabled value="{{$ziploc->zip}}">
+                                <input type="text" id="zip" disabled class="form-control" value="{{$ziploc->zip}}">
                             </div>
-                            <div class="form-group col-md-12">
+                            <div class="form-group col-md-4">
                                 <label class="form-label"><strong>City</strong></label>
-                                <input type="text" class="form-control" disabled value="{{$ziploc->city}}">
+                                <input type="text" name="city" class="form-control" value="{{$ziploc->city ? $ziploc->city : ''}}" placeholder="N/A">
                             </div>
-                            <div class="form-group col-md-12">
+                            <div class="form-group col-md-4">
                                 <label class="form-label"><strong>State</strong></label>
-                                <input type="text" class="form-control" disabled value="{{$ziploc->state}}">
+                                <input type="text" name="state" class="form-control" value="{{$ziploc->state ? $ziploc->state : ''}}" placeholder="N/A">
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-12" style="display: flex; justify-content: right;">
+                                <button type="submit" id="update_location_btn" class="btn btn-primary">Update Location</button>
                             </div>
                         </div>
                     </form>
                 </div>
             </div>
         </div>
-        <div class="col-lg-8">
+    </div>
+    <div class="row">
+        <div class="col-lg-12">
             <div class="ibox">
                 <div class="ibox-content">
                     <span style="display: flex; justify-content: space-between; align-items: center;">
-                        <h4>Service Providers & Offers</h4>
-                        <button class="btn btn-primary text-white" data-toggle="modal" data-target="#add_modalbox"><i class="fa fa-plus" aria-hidden="true"></i> Add Provider & Offers in Location</button>
+                        <h4>Service Providers & Offers in Location</h4>
+                        <a class="btn btn-primary text-white" href="{{url('admin/locations/add-provider/' . $ziploc->zip)}}"><i class="fa fa-plus" aria-hidden="true"></i> Add Provider & Offers in Location</a>
                     </span>
                     <hr>
                     <div class="table-responsive">
@@ -66,7 +73,6 @@
                                 <tr>
                                     <th>Sr #</th>
                                     <th>Service Provider</th>
-                                    <th>Total Local Offers</th>
                                     <th>Action</th>
                                 </tr>
                             </thead>
@@ -76,9 +82,8 @@
                                 <tr class="gradeX">
                                     <td>{{ $i++ }}</td>
                                     <td>{{$item->name}}</td>
-                                    <td class="text-center">{{count_offers_in_zip($item->id, $ziploc->zip)}}</td>
                                     <td>
-                                        <button class="btn btn-primary btn-sm" id="btn_provider_edit" data-id="{{$item->id}}" data-zip="{{$ziploc->zip}}" data-placement="top" title="Details" data-toggle="modal" data-target="#edit_modalbox"> Details </button>
+                                        <a class="btn btn-primary btn-sm" id="btn_provider_edit" href="{{url('admin/locations/provider-offers/' . $ziploc->zip . '/' . $item->id)}}"> Details </a>
                                         <button class="btn btn-danger btn-sm btn_provider_delete" data-id="{{$item->id}}" data-zip="{{$ziploc->zip}}" data-text="This action will remove this service provider from specified location." type="button" data-placement="top" title="Remove">Remove</button>
                                     </td>
                                 </tr>
@@ -157,6 +162,39 @@
                     swal("Cancelled", "", "error");
                 }
             });
+    });
+    $(document).on("click", "#update_location_btn", function() {
+        var btn = $(this).ladda();
+        btn.ladda('start');
+        var formData = new FormData($("#update_location_form")[0]);
+        $.ajax({
+            url: "{{ url('admin/locations/update') }}",
+            type: 'POST',
+            data: formData,
+            dataType: 'json',
+            cache: false,
+            contentType: false,
+            processData: false,
+            success: function(status) {
+                if (status.msg == 'success') {
+                    toastr.success(status.response, "Success");
+                    btn.ladda('stop');
+                    setTimeout(function() {
+                        location.reload();
+                    }, 500);
+                } else if (status.msg == 'error') {
+                    btn.ladda('stop');
+                    toastr.error(status.response, "Error");
+                } else if (status.msg == 'lvl_error') {
+                    btn.ladda('stop');
+                    var message = "";
+                    $.each(status.response, function(key, value) {
+                        message += value + "<br>";
+                    });
+                    toastr.error(message, "Error");
+                }
+            }
+        });
     });
 </script>
 

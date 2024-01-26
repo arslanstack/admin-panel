@@ -15,6 +15,7 @@ class ProviderPackage extends Model
         'provider_id',
         'service_id',
         'title',
+        'pkg_type',
         'specs',
         'price',
         'duration',

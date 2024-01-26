@@ -55,11 +55,11 @@
                                 <tr class="gradeX">
                                     <td>{{ $i++ }}</td>
                                     <td>{{$item->zip}}</td>
-                                    <td>{{$item->city}}</td>
-                                    <td>{{ $item->state }}</td>
+                                    <td>{{$item->city ? $item->city : 'N/A'}}</td>
+                                    <td>{{ $item->state ?  $item->state : 'N/A'}}</td>
                                     <td>{{ date_formated($item->created_at)}}</td>
                                     <td>
-                                        <a href="{{url('admin/locations/details/' . $item->zip)}}" class="btn btn-primary btn-sm" data-placement="top" title="Details"> Details </a>
+                                        <a href="{{url('admin/locations/details/' . $item->zip)}}" class="btn btn-primary btn-sm" data-placement="top" title="Details">Details </a>
                                         <button class="btn btn-danger btn-sm btn_location_delete" data-id="{{$item->id}}" data-text="This action will remove this location as well as all offers and service provider records in it." type="button" data-placement="top" title="Delete">Delete</button>
                                     </td>
                                 </tr>
@@ -68,10 +68,10 @@
                         </table>
                     </div>
                     <div class="row">
-                        <div class="col-md-9">
+                        <div class="col-md-8">
                             <p>Showing {{ $zips->firstItem() }} to {{ $zips->lastItem() }} of {{ $zips->total() }} entries</p>
                         </div>
-                        <div class="col-md-3 text-right">
+                        <div class="col-md-4 text-right float-right float-end">
                             {{ $zips->links('pagination::bootstrap-4') }}
                         </div>
                     </div>
@@ -96,6 +96,18 @@
                         <label class="col-sm-4 col-form-label"><strong>Zip Code</strong></label>
                         <div class="col-sm-8">
                             <input type="text" name="zip" class="form-control" placeholder="Zip">
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label class="col-sm-4 col-form-label"><strong>City</strong></label>
+                        <div class="col-sm-8">
+                            <input type="text" name="city" class="form-control" placeholder="Optional">
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label class="col-sm-4 col-form-label"><strong>State</strong></label>
+                        <div class="col-sm-8">
+                            <input type="text" name="state" class="form-control" placeholder="Optional">
                         </div>
                     </div>
                 </form>
@@ -140,8 +152,12 @@
             success: function(status) {
                 if (status.msg == 'success') {
                     toastr.success(status.response, "Success");
+                    btn.ladda('stop');
+                    $("#add_zip_form")[0].reset();
+                    $('#add_modalbox').modal('hide');
                     setTimeout(function() {
-                        location.reload();
+                        
+                        window.location.href = "{{ url('admin/locations/details/') }}/" + status.zip;
                     }, 500);
                 } else if (status.msg == 'error') {
                     btn.ladda('stop');
